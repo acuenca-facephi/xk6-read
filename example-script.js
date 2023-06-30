@@ -4,12 +4,25 @@ import read from 'k6/x/read';
 const filePath = '/dummy/path/to/file.txt';
 const directoryPath = '/dummy/path/to/directory';
 
+function readFile(file) {
+    console.log(file.path + ': ' + file.content);
+}
+
+function readDirectory(directory) {
+    console.log('directory :' + directory.path);
+    for (let i = 0; i < directory.content.length; i++) {
+        const item = directory.content[i];
+        if (Array.isArray(item.content)) readDirectory(item);
+        else readFile(item);
+    }
+}
+
 export default function () {
-    // read file
-    let fileContent = read.readFile(filePath);
-    console.log(JSON.stringify(fileContent));
-    
-    // read directory
-    let directoryContent = read.readDirectory(directoryPath);
-    console.log(JSON.stringify(directoryContent));
+    let file = read.readFile(filePath);
+    //console.log(JSON.stringify(file));
+    readFile(file);
+
+    let directory = read.readDirectory(directoryPath);
+    //console.log(JSON.stringify(directory));
+    readDirectory(directory);
 }
