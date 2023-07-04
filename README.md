@@ -1,5 +1,5 @@
 # xk6-read
-[k6](https://github.com/grafana/k6) extension for reading files, implemented using the
+[k6](https://github.com/grafana/k6) extension for reading files and directories, implemented using the
 [xk6](https://github.com/grafana/xk6) system.  
 Inspired in the [writing files k6 extension](https://github.com/avitalique/xk6-file).
 
