@@ -5,7 +5,11 @@ Inspired in the [writing files k6 extension](https://github.com/avitalique/xk6-f
 
 ## Build
 ```shell
-xk6 build v0.36.0 --with github.com/acuenca-facephi/xk6-read@latest
+xk6 build v0.45.0 --with github.com/acuenca-facephi/xk6-read@latest
+```
+### Local build
+```shell
+xk6 build v0.45.0 --with github.com/acuenca-facephi/xk6-read="/mnt/c/projects/other/xk6-read"
 ```
 
 ## Example
@@ -13,21 +17,34 @@ xk6 build v0.36.0 --with github.com/acuenca-facephi/xk6-read@latest
 import read from 'k6/x/read'; 
 
 // change file/directory paths
-const filePath = '/dummy/path/to/file.txt';
-const directoryPath = '/dummy/path/to/directory';
+const FILE_PATH = '/mnt/c/projects/other/test-directory/textOutput2.txt';
+const DIRECTORY_PATH = '/mnt/c/projects/other/test-directory';
+
+function readFile(file) {
+    console.log(file.path + ': ' + file.content);
+}
+
+function readDirectory(directory) {
+    console.log('directory :' + directory.path);
+    for (let i = 0; i < directory.content.length; i++) {
+        const item = directory.content[i];
+        if (Array.isArray(item.content)) readDirectory(item);
+        else readFile(item);
+    }
+}
 
 export default function () {
-    // read file
-    let fileContent = read.readFile(filePath);
-    console.log(JSON.stringify(fileContent));
-    
-    // read directory
-    let directoryContent = read.readDirectory(directoryPath);
-    console.log(JSON.stringify(directoryContent));
+    let file = read.readFile(FILE_PATH);
+    //console.log(JSON.stringify(file));
+    readFile(file);
+
+    let directory = read.readDirectory(DIRECTORY_PATH);
+    //console.log(JSON.stringify(directory));
+    readDirectory(directory);
 }
 ```
 
 ## Run example script
 ```shell
-./k6 run example-script.js
+./k6 run examples/example-script.js
 ```
