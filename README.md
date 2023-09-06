@@ -48,3 +48,16 @@ export default function () {
 ```shell
 ./k6 run examples/example-script.js
 ```
+
+## Docker
+
+### Build
+```shell
+docker build -t adriancuenca/xk6-read:v1.0.0-rc1 .
+```
+### Run
+```shell
+docker run -v "/path/to/scripts:/scripts" \
+-it --rm adriancuenca/xk6-read:v1.0.0-rc1 \
+run /scripts/enroll_thousand_faces-xk6.js
+```
