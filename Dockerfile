@@ -1,12 +1,14 @@
 # Credits to @javaducky xk6-sql Dockerfile (https://github.com/grafana/xk6-sql/blob/master/Dockerfile)
 # Multi-stage build to generate custom k6 with extension
 FROM golang:1.20-alpine as builder
+ARG XK6_EXTENSIONS=""
 WORKDIR $GOPATH/src/go.k6.io/k6
 ADD . .
 RUN apk --no-cache add build-base git
 RUN go install go.k6.io/xk6/cmd/xk6@latest
 RUN xk6 build \
     --with github.com/acuenca-facephi/xk6-read@latest \
+    $XK6_EXTENSIONS \
     --output /tmp/k6
 
 # Create image for running your customized k6

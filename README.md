@@ -54,6 +54,8 @@ export default function () {
 ### Build
 ```shell
 docker build -t adriancuenca/xk6-read:v1.0.0-rc1 .
+# or
+docker build --build-arg XK6_EXTENSIONS="--with github.com/grafana/xk6-output-influxdb" -t adriancuenca/xk6-read:v1.0.0-rc1 .
 ```
 ### Run
 ```shell
