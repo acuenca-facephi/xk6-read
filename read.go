@@ -39,6 +39,7 @@ type File struct {
 	Item
 	Path    string
 	Content string
+	Binary []byte
 }
 
 func (f *File) GetPath() string {
@@ -78,4 +79,14 @@ func (*READ) ReadFile(path string) (File, error) {
 	}
 
 	return File{Path: path, Content: string(fileContent)}, nil
+}
+
+func (*READ) ReadBinaryFile(path string) (File, error) {
+        fileContent, readError := os.ReadFile(path)
+
+        if readError != nil {
+                return File{}, readError
+        }
+
+        return File{Path: path, Binary: fileContent}, nil
 }
