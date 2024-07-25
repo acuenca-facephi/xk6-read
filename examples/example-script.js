@@ -8,6 +8,10 @@ function readFile(file) {
     console.log(file.path + ': ' + file.content);
 }
 
+function readBinaryFile(file) {
+    console.log(file.path + ' size: ' + file.binary.length + ' bytes');
+}
+
 function readDirectory(directory) {
     console.log('directory :' + directory.path);
     for (let i = 0; i < directory.content.length; i++) {
@@ -21,6 +25,9 @@ export default function () {
     let file = read.readFile(FILE_PATH);
     //console.log(JSON.stringify(file));
     readFile(file);
+
+    let binaryFile = read.readBinaryFile(FILE_PATH);
+    readBinaryFile(binaryFile);
 
     let directory = read.readDirectory(DIRECTORY_PATH);
     //console.log(JSON.stringify(directory));
